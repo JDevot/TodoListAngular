@@ -1,0 +1,32 @@
+<form class="form" (submit)="add(taskTitle.value); taskTitle.value=''">
+    <div class="form-group">
+        <input #taskTitle class="form-control" placeholder="Nom de la tâche" />
+    </div>
+    <input type="submit" value="Ajouter" class="btn btn-success btn-lg btn-block" />
+</form>
+
+<table class="table">
+    <tr *ngFor="let task of tasks">
+        <div
+        *ngIf="task.state; else tachefalse">
+        Tache  réalisée
+        </div>
+        <ng-template  #tachefalse> Tache non réalisée</ng-template>
+        <div class="form-check">
+            <input (change)="completedTask(task)" [(ngModel)]="task.state" name="state" class="form-check-input position-static" type="checkbox">
+        </div>
+        <td class="text-left ">
+            <a (click)="edit(task)">
+                <span *ngIf="task!==editTask">{{task.label}}</span>
+                <input *ngIf="task===editTask" [(ngModel)]="task.label" (blur)="update()" (keyup.enter)="update()">
+            </a>
+        </td>
+        <td class="text-right">
+            <button class="btn btn-danger" title="delete task" (click)="delete(task)">Delete</button>
+        </td>
+    </tr>
+</table>
+
+<div class="card card-body bg-light text-center">
+    <span class="small">Cliquez sur la tâche pour la modifier</span>
+</div>
